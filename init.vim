@@ -1,48 +1,46 @@
 """ Plugins
 let g:ale_completion_enabled = 0
 call plug#begin('~/.config/nvim/plugged')
-Plug 'Vimjas/vim-python-pep8-indent'
+
+""" UI
+" Plug 'lewis6991/gitsigns.nvim'
+Plug 'nvimdev/dashboard-nvim',
 Plug 'altercation/vim-colors-solarized'
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'nanotech/jellybeans.vim'
+Plug 'sainnhe/everforest'
 Plug 'ellisonleao/gruvbox.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+
+""" Code utilities
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'bronson/vim-trailing-whitespace'
 Plug 'folke/trouble.nvim'
-Plug 'folke/zen-mode.nvim'
-Plug 'ggml-org/llama.vim'
 Plug 'godlygeek/tabular'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-omni'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/nvim-cmp'
 Plug 'junegunn/fzf', { 'dir': '~/source/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
-Plug 'kdheepak/lazygit.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'nanotech/jellybeans.vim'
-Plug 'nathangrigg/vim-beancount'
+" Plug 'kdheepak/lazygit.nvim'
+" Plug 'nathangrigg/vim-beancount'
 Plug 'neovim/nvim-lspconfig'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'nvim-lua/plenary.nvim'
+" Plug 'neovimhaskell/haskell-vim'
+" Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'nvim-neotest/nvim-nio'
+" Plug 'nvim-neotest/nvim-nio'
+
+""" File utilities
+" Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'build': ':TSUpdate', 'lazy': 'false'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'nvimdev/dashboard-nvim',
-Plug 'rhysd/git-messenger.vim'
-Plug 'sainnhe/everforest'
-Plug 'sindrets/diffview.nvim'
+Plug 'rhysd/git-messenger.vim' " Check out
+Plug 'sindrets/diffview.nvim' " Check out
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tversteeg/registers.nvim'
-Plug 'vim-test/vim-test'
+" Plug 'tversteeg/registers.nvim'
 call plug#end()
 
 """ Color
@@ -59,7 +57,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>  " source init.vim
 nnoremap <leader>D :b#<bar>bd#<cr>
 nnoremap <leader>o :LspClangdSwitchSourceHeader<cr>
 
-noremap <leader>f :Telescope git_files<CR>
+noremap <leader>f :GFiles<CR>
 noremap <leader>F :Telescope find_files<CR>
 noremap <leader>l :Telescope find_files search_dirs=%:p:h<CR>
 noremap <leader>b :Telescope buffers<CR>
@@ -127,6 +125,10 @@ nnoremap <silent> <leader>ga <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <leader>hh <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.format()<CR>
 
+""" Blink
+lua << EOF
+EOF
+
 """ Treesitter
 lua << EOF
 require'nvim-treesitter'.setup {
@@ -187,54 +189,23 @@ require'treesitter-context'.setup {
 }
 EOF
 
-""" cmp.setup
-lua << EOF
-local cmp = require'cmp'
+""" Dashboard
+" lua << EOF
+" require'dashboard'.setup {
+"   theme = 'doom',
 
-cmp.setup{
-    sources = {
-        { name = 'omni' },
-        { name = 'nvim_lsp' },
-        { name = 'buffer' },
-    },
-    mapping = {
-        ['<CR>'] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Insert,
-          select = true,
-        },
-
-        ['<C-n>'] = function(fallback)
-          if not cmp.select_next_item() then
-            if vim.bo.buftype ~= 'prompt' and has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end
-        end,
-
-        ['<C-p>'] = function(fallback)
-          if not cmp.select_prev_item() then
-            if vim.bo.buftype ~= 'prompt' and has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end
-        end,
-    },
-}
-EOF
+" }
+" EOF
 
 """ registers.nvim
-lua << EOF
-require("registers").setup(
-    {
-        show_empty = false,
-        system_clipboard = false,
-    }
-)
-EOF
+" lua << EOF
+" require("registers").setup(
+"     {
+"         show_empty = false,
+"         system_clipboard = false,
+"     }
+" )
+" EOF
 
 """ trouble
 lua << EOF
@@ -269,7 +240,6 @@ lua << END
 require('lualine').setup {
   options = { theme = 'everforest' }
 }
-require('gitsigns').setup()
 END
 
 
