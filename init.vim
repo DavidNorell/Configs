@@ -1,7 +1,6 @@
-" Plugins {{{
+""" Plugins
 let g:ale_completion_enabled = 0
 call plug#begin('~/.config/nvim/plugged')
-
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bronson/vim-trailing-whitespace'
@@ -30,7 +29,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-neotest/nvim-nio'
 Plug 'nvim-telescope/telescope.nvim'
-" Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-treesitter/nvim-treesitter', {'build': ':TSUpdate', 'lazy': 'false'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -45,20 +43,16 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tversteeg/registers.nvim'
 Plug 'vim-test/vim-test'
-Plug 'christoomey/vim-tmux-navigator'
-
 call plug#end()
-" }}}
 
-" Color {{{
-colorscheme gruvbox    " Pretty colors
+""" Color
+colorscheme gruvbox
 
 if has("termguicolors")
     set termguicolors
 endif
-" }}}
 
-" Leader {{{
+""" Leader
 let mapleader = " "                       " space as leader
 nnoremap <leader>ev :vsp    $MYVIMRC<cr>  " open init.vim in split
 nnoremap <leader>sv :source $MYVIMRC<cr>  " source init.vim
@@ -73,16 +67,9 @@ noremap <leader>gg :Telescope live_grep<CR>
 noremap <leader>j :cnext<CR>
 noremap <leader>k :cprev<CR>
 
-
-" noremap <leader>tf :NvimTreeFindFile<CR>
-" noremap <leader>tt :NvimTreeFindFileToggle<CR>
-
 noremap <leader>x :Trouble diagnostics toggle focus=false filter.buf=0<CR>
-" }}}
 
-" LSP and Linters {{{
-
-" LSP
+""" LSP
 lua << EOF
 vim.lsp.config('hls', {})
 vim.lsp.config('clangd', {
@@ -90,7 +77,7 @@ vim.lsp.config('clangd', {
     "clangd",
     "--background-index",
     "--clang-tidy",
-    "--query-driver=/Users/davidnorell/.espressif/tools/**/*-g++,/Users/davidnorell/.espressif/tools/**/*-gcc",
+    "--query-driver=/Users/david/.espressif/tools/**/*-g++,/Users/david/.espressif/tools/**/*-gcc",
   }
 })
 vim.lsp.config('rust_analyzer', {})
@@ -140,9 +127,7 @@ nnoremap <silent> <leader>ga <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <leader>hh <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.format()<CR>
 
-" }}}
-
-" Treesitter {{{
+""" Treesitter
 lua << EOF
 require'nvim-treesitter'.setup {
     ensure_installed = { "cpp", "c", "bash", "fish", "python", "lua", "vim", "vimdoc", "rust", "go" },
@@ -197,29 +182,12 @@ require'nvim-treesitter'.setup {
         },
     },
 }
-
 require'treesitter-context'.setup {
   enable = true,
 }
 EOF
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-" }}}
 
-" nvim-tree {{{
-" lua << EOF
-" require('nvim-tree').setup {
-"     view = {
-"         adaptive_size = true,
-"     },
-"     git = {
-"         ignore = false,
-"     },
-" }
-" EOF
-" }}}
-
-" nvim-cmp {{{
+""" cmp.setup
 lua << EOF
 local cmp = require'cmp'
 
@@ -256,12 +224,9 @@ cmp.setup{
         end,
     },
 }
-
-
 EOF
-" }}}
 
-" registers.nvim {{{
+""" registers.nvim
 lua << EOF
 require("registers").setup(
     {
@@ -270,27 +235,26 @@ require("registers").setup(
     }
 )
 EOF
-" }}}
 
-" trouble {{{
+""" trouble
 lua << EOF
 require('trouble').setup()
 EOF
-" }}}
 
-" Misc {{{
-syntax enable
-set guicursor=          " fix error with nvim printing strange character on entering insert mode
-set virtualedit=block   " Enable to move cursor on places without characters in visual block mode
-" }}}
-
-" Spaces and Tabs {{{
+""" Spaces and Tabs
 set tabstop=2           " number of visual spaces per TAB
 set softtabstop=2       " number of spaces in tab when editing
+set shiftwidth=2      " number of spaces to use on << and >>
 set expandtab           " tabs are spaces
-" }}}
+set autoindent    " Copy indentation from current line on <cr>
 
-" UI config {{{
+""" Folding
+set foldenable          " enable folding
+set foldlevelstart=10   " open most folds by default
+set foldmethod=expr   " use indent as fold indicator
+set foldexpr=nvim_treesitter#foldexpr()
+
+""" UI config
 syntax on
 set number            " show line numbers
 set cursorline        " highlight current line
@@ -299,7 +263,6 @@ set wildmenu          " visual autocomplete for command menu
 set lazyredraw        " redraw only when we need to
 set showmatch         " highlight matching [{()}]
 set diffopt+=vertical " Open diff window in vertical split
-set shiftwidth=4      " number of spaces to use on << and >>
 set scrolloff=2       " keep 3 lines above and below cursor
 
 lua << END
@@ -310,9 +273,7 @@ require('gitsigns').setup()
 END
 
 
-" }}}
-
-" Searching {{{
+""" Searching
 set incsearch      " search as characters are entered
 set hlsearch       " highlight matches
 set ignorecase     " Ignore case when searching
@@ -322,21 +283,13 @@ if executable("rg")
 endif
 
 nnoremap <leader>, :nohlsearch<cr>  " clear search highlight
-" }}}
 
-" Folding {{{
-set foldenable          " enable folding
-set foldlevelstart=10   " open most folds by default
-set foldmethod=expr   " use indent as fold indicator
-set foldexpr=nvim_treesitter#foldexpr()
-" }}}
 
-" Autocommands {{{
+""" Autocommands
 autocmd WinEnter * set relativenumber     " set relativenumber when entering window
 autocmd WinLeave * set norelativenumber   " set norelativenumber when entering window
-" }}}
 
-" Remaps {{{
+""" Remaps
 inoremap jk <Esc>
 inoremap kj <Esc>
 
@@ -348,10 +301,9 @@ noremap <C-l> <C-w>l
 noremap ]h :Gitsigns next_hunk<CR>
 noremap [h :Gitsigns prev_hunk<CR>
 noremap <leader>gh :Gitsigns preview_hunk<CR>
-" }}}
 
-" Indent {{{
-set autoindent    " Copy indentation from current line on <cr>
-" }}}
-
-" vim: set foldmethod=marker:foldlevel=0
+""" Misc
+syntax enable
+set guicursor=          " fix error with nvim printing strange character on entering insert mode
+set virtualedit=block   " Enable to move cursor on places without characters in visual block mode
+set clipboard=unnamedplus

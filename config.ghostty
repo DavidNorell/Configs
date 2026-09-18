@@ -1,0 +1,50 @@
+### theme = Nocturnal Winter
+background = #130825
+background-opacity = 0.9
+background-blur-radius = 20
+font-family = Monofur Nerd Font
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+font-size = 16
+foreground = #ffffff
+font-thicken = true
+font-thicken-strength = 128
+# macos-option-as-alt = left
+# palette = 0=#ff0000
+#black
+palette = 0=#504080
+palette = 8=#504080
+# red
+palette = 1=#e00090
+palette = 9=#e00090
+# green
+palette = 2=#74da10
+palette = 10=#74da10
+# yellow
+palette = 3=#ff8800
+palette = 11=#ff8800
+# blue
+palette = 4=#5035ff
+palette = 12=#5035ff
+# magenta
+palette = 5=#ae00f8
+palette = 13=#ae00f8
+# cyan
+palette = 6=#20ea98
+palette = 14=#20ea98
+# white
+palette = 7=#9f9fda
+palette = 15=#9f9fda
+foreground = #c6d0f5
+cursor-color = #ff8800
+cursor-text = #000000
+selection-background = #402090
+selection-foreground = #000000
+
+keybind = unconsumed:ctrl+k=goto_split:top
+keybind = unconsumed:ctrl+j=goto_split:bottom
+keybind = unconsumed:ctrl+h=goto_split:left
+keybind = unconsumed:ctrl+l=goto_split:right
+
+#background = #303446
