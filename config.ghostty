@@ -1,17 +1,21 @@
 ### theme = Nocturnal Winter
+foreground = #c6d0f5
 background = #130825
 background-opacity = 0.9
-background-blur-radius = 20
-font-family = Monofur Nerd Font
+selection-background = #402090
+selection-foreground = #000000
+
+cursor-color = #ff8800
+cursor-text = #000000
+
+font-family = Monofur Nerd Font Mono
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 font-size = 16
-foreground = #ffffff
 font-thicken = true
 font-thicken-strength = 128
-# macos-option-as-alt = left
-# palette = 0=#ff0000
+
 #black
 palette = 0=#504080
 palette = 8=#504080
@@ -36,15 +40,18 @@ palette = 14=#20ea98
 # white
 palette = 7=#9f9fda
 palette = 15=#9f9fda
-foreground = #c6d0f5
-cursor-color = #ff8800
-cursor-text = #000000
-selection-background = #402090
-selection-foreground = #000000
 
-keybind = unconsumed:ctrl+k=goto_split:top
-keybind = unconsumed:ctrl+j=goto_split:bottom
-keybind = unconsumed:ctrl+h=goto_split:left
-keybind = unconsumed:ctrl+l=goto_split:right
+keybind = ctrl+k=goto_split:up
+keybind = ctrl+j=goto_split:down
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
 
-#background = #303446
+keybind = ctrl+alt+k=new_split:up
+keybind = ctrl+alt+j=new_split:down
+keybind = ctrl+alt+h=new_split:left
+keybind = ctrl+alt+l=new_split:right
+
+keybind = ctrl+shift+h=previous_tab
+keybind = ctrl+shift+l=next_tab
+
+shell-integration-features = ssh-terminfo,ssh-env

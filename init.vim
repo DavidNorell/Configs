@@ -3,8 +3,6 @@ let g:ale_completion_enabled = 0
 call plug#begin('~/.config/nvim/plugged')
 
 """ UI
-" Plug 'lewis6991/gitsigns.nvim'
-Plug 'nvimdev/dashboard-nvim',
 Plug 'altercation/vim-colors-solarized'
 Plug 'nanotech/jellybeans.vim'
 Plug 'sainnhe/everforest'
@@ -19,16 +17,10 @@ Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'dir': '~/source/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
-" Plug 'kdheepak/lazygit.nvim'
-" Plug 'nathangrigg/vim-beancount'
 Plug 'neovim/nvim-lspconfig'
-" Plug 'neovimhaskell/haskell-vim'
-" Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-" Plug 'nvim-neotest/nvim-nio'
 
 """ File utilities
-" Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'build': ':TSUpdate', 'lazy': 'false'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
@@ -40,7 +32,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-" Plug 'tversteeg/registers.nvim'
+Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 call plug#end()
 
 """ Color
@@ -127,6 +119,21 @@ nnoremap <silent> <leader>gf <cmd>lua vim.lsp.buf.format()<CR>
 
 """ Blink
 lua << EOF
+require('blink.cmp').setup({
+  keymap = { preset = 'default' },
+  appearance = {
+    nerd_font_variant = 'mono'
+  },
+  completion = {
+    documentation = { auto_show = false }
+  },
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
+  },
+  fuzzy = {
+    implementation = "prefer_rust_with_warning"
+  }
+})
 EOF
 
 """ Treesitter
@@ -188,24 +195,6 @@ require'treesitter-context'.setup {
   enable = true,
 }
 EOF
-
-""" Dashboard
-" lua << EOF
-" require'dashboard'.setup {
-"   theme = 'doom',
-
-" }
-" EOF
-
-""" registers.nvim
-" lua << EOF
-" require("registers").setup(
-"     {
-"         show_empty = false,
-"         system_clipboard = false,
-"     }
-" )
-" EOF
 
 """ trouble
 lua << EOF
