@@ -1,4 +1,4 @@
-#Config files
+# Config Files
 
 ## NeoVimSetup
 NeoVim setups
@@ -8,3 +8,7 @@ Uses Plug:
 - :PlugUpdate to update the extensions
 
 ## Ghostty config
+
+## .bashrc
+- Command history improvements
+- Aliases for checking ssl certs
