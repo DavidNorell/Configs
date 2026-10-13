@@ -41,17 +41,19 @@ palette = 14=#20ea98
 palette = 7=#9f9fda
 palette = 15=#9f9fda
 
-keybind = ctrl+k=goto_split:up
-keybind = ctrl+j=goto_split:down
-keybind = ctrl+h=goto_split:left
-keybind = ctrl+l=goto_split:right
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+l=goto_split:right
+
+keybind = ctrl+alt+e=equalize_splits
 
 keybind = ctrl+alt+k=new_split:up
 keybind = ctrl+alt+j=new_split:down
 keybind = ctrl+alt+h=new_split:left
 keybind = ctrl+alt+l=new_split:right
 
-keybind = ctrl+shift+h=previous_tab
-keybind = ctrl+shift+l=next_tab
+keybind = ctrl+shift+tab=previous_tab
+keybind = ctrl+tab=next_tab
 
 shell-integration-features = ssh-terminfo,ssh-env

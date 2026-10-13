@@ -1,3 +1,9 @@
+" Manual required installs:
+" - plug (install, add 'plugged' directory, then run :PlugInstall)
+" - ripgrep
+" - xclip
+
+
 """ Plugins
 let g:ale_completion_enabled = 0
 call plug#begin('~/.config/nvim/plugged')
