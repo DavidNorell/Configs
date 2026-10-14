@@ -252,7 +252,7 @@ nnoremap <leader>o :LspClangdSwitchSourceHeader<cr>
 nnoremap <leader>f :Telescope git_files<CR>
 nnoremap <leader>F :Telescope find_files<CR>
 nnoremap <leader>b :Telescope buffers<CR>
-nnoremap <leader>gg :Telescope live_grep<CR> " Need to install 'ripgrep' for this to work
+nnoremap <leader>gg :Telescope live_grep<CR>
 nnoremap <leader>j :cnext<CR>
 nnoremap <leader>k :cprev<CR>
 nnoremap <leader>gb :Git blame<CR>
