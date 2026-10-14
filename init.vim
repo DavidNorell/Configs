@@ -2,6 +2,7 @@
 " - plug (install, add 'plugged' directory, then run :PlugInstall)
 " - ripgrep
 " - xclip
+" - python-lsp-server
 
 
 """ Plugins
