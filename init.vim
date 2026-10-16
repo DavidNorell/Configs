@@ -1,8 +1,9 @@
-" Manual required installs:
+" Manual installs:
 " - plug (install, add 'plugged' directory, then run :PlugInstall)
 " - ripgrep
 " - xclip
 " - python-lsp-server
+" - fd
 
 
 """ Plugins
@@ -64,18 +65,28 @@ vim.lsp.config('clangd', {
 vim.lsp.config('rust_analyzer', {})
 vim.lsp.config('gopls', {})
 vim.lsp.config('pylsp', {
-settings = {
+  cmd = {
+    '/home/david/Projekt/spintra/backend/.env/bin/python', '-m', 'pylsp'
+  },
+  settings = {
     pylsp = {
-        plugins = {
-            pylint = { enabled = false },
-            mypy = { enabled = true },
-            flake8 = { enabled = false },
-            pycodestyle = { enabled = false },
-            ruff = { enabled = true },
-            isort = { enabled = true },
-            },
+      plugins = {
+        pylint = { enabled = false },
+        mypy = { enabled = true },
+        flake8 = { enabled = false },
+        pycodestyle = {
+          enabled = true,
+          maxLineLength = 100
         },
+        black = {
+          enabled = true,
+          lineLength = 100
+        },
+        ruff = { enabled = true },
+        isort = { enabled = true },
+      },
     },
+  },
 })
 vim.lsp.enable({'clangd', 'rust_analyzer', 'gopls', 'pylsp'})
 
@@ -210,6 +221,8 @@ set lazyredraw        " redraw only when we need to
 set showmatch         " highlight matching [{()}]
 set diffopt+=vertical " Open diff window in vertical split
 set scrolloff=2       " keep 3 lines above and below cursor
+set equalalways
+set eadirection=both
 
 
 """ Searching
@@ -220,6 +233,12 @@ set smartcase      " Dont ignore case if typeing capital letters in search
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading
 endif
+
+""" Providers
+let g:loaded_node_provider=0
+let g:loaded_perl_provider=0
+let g:loaded_ruby_provider=0
+let g:loaded_python3_provider=0
 
 nnoremap <leader>, :nohlsearch<cr>  " clear search highlight
 
