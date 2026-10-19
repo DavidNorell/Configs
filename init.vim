@@ -43,6 +43,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
+Plug 'pmizio/typescript-tools.nvim'
 call plug#end()
 
 """ Color
@@ -151,7 +152,7 @@ vim.lsp.config('django_template_lsp', {
 })
 
 -- Enable lang servers
-vim.lsp.enable({'typescript-tools', 'cssls', 'ruff', 'basedpyright', 'django_template_lsp'})
+vim.lsp.enable({'cssls', 'ruff', 'basedpyright', 'django_template_lsp'})
 
 -- Format on save
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -168,9 +169,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
     })
   end
 })
+
+require('typescript-tools').setup({
+  on_attach = function(client, bufnr)
+    client.server_capabilities.documentFormattingProvider = false
+  end,
+  settings = {
+    separate_diagnostic_server = true,
+    publish_diagnostic_on = 'insert_leave',
+    expose_as_code_action = { 'fix_all', 'organize_imports' },
+  },
+})
 EOF
 
-""" blink.cmp
+""" https://cmp.saghen.dev/configuration/reference.html#completion-trigger
 lua << EOF
 require('blink.cmp').setup({
   keymap = { preset = 'default' },
