@@ -2,8 +2,9 @@
 " - plug (install, add 'plugged' directory, then run :PlugInstall)
 " - ripgrep
 " - xclip
-" - python-lsp-server
-" - fd
+" - vscode-langservers-extracted (npm)
+" - basedpyright (npm)
+" - ruff
 
 
 """ Plugins
@@ -53,42 +54,104 @@ endif
 
 """ nvim-lspconfig
 lua << EOF
-vim.lsp.config('hls', {})
-vim.lsp.config('clangd', {
-  cmd = {
-    "clangd",
-    "--background-index",
-    "--clang-tidy",
-    "--query-driver=/Users/david/.espressif/tools/**/*-g++,/Users/david/.espressif/tools/**/*-gcc",
+
+-- https://github.com/pmizio/typescript-tools.nvim
+vim.lsp.config('typescript-tools', {
+  settings = {
+    separate_diagnostic_server = true,
+    publish_diagnostic_on = "insert_leave",
+    expose_as_code_action = {},
+    tsserver_path = nil,
+    tsserver_plugins = {},
+    tsserver_max_memory = "auto",
+    tsserver_format_options = {},
+    tsserver_file_preferences = {},
+    tsserver_locale = "en",
+    complete_function_calls = false,
+    include_completions_with_insert_text = true,
+    code_lens = "off",
+    disable_member_code_lens = true,
+    jsx_close_tag = {
+        enable = false,
+        filetypes = { "javascriptreact", "typescriptreact" },
+    }
   }
 })
-vim.lsp.config('rust_analyzer', {})
-vim.lsp.config('gopls', {})
-vim.lsp.config('pylsp', {
-  cmd = {
-    '/home/david/Projekt/spintra/backend/.env/bin/python', '-m', 'pylsp'
+
+-- https://nix-community.github.io/nixvim/plugins/lsp/servers/cssls/
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+vim.lsp.config('cssls', {
+  capabilities = capabilities,
+})
+
+-- https://docs.basedpyright.com/latest/configuration/language-server-settings/
+vim.lsp.config('basedpyright', {
+  cmd = { "basedpyright-langserver", "--stdio" },
+  filetypes = { "python" },
+  root_markers = {
+    "pyrightconfig.json",
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    "Pipfile",
+    ".git",
   },
   settings = {
-    pylsp = {
-      plugins = {
-        pylint = { enabled = false },
-        mypy = { enabled = true },
-        flake8 = { enabled = false },
-        pycodestyle = {
-          enabled = true,
-          maxLineLength = 100
-        },
-        black = {
-          enabled = true,
-          lineLength = 100
-        },
-        ruff = { enabled = true },
-        isort = { enabled = true },
+    basedpyright = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "openFilesOnly",
+        typeCheckingMode = "basic",
+        -- useLibraryCodeForTypes = true, -- default, sällan behöver du sätta
       },
+      python = { pythonPath = "/home/david/Projekt/spintra/backend/.env/bin/python" },
     },
   },
 })
-vim.lsp.enable({'clangd', 'rust_analyzer', 'gopls', 'pylsp'})
+
+-- https://docs.astral.sh/ruff/editors/settings
+vim.lsp.config('ruff', {
+  cmd = { 'ruff', 'server' },
+  filetypes = { 'python' },
+  root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+  init_options = {
+    settings = {
+      configurationPreference = "filesystemFirst",
+      configuration = {
+        lint = {
+          unfixable = {"F401"},
+          ["extend-select"] = {"TID251"},
+          ["flake8-tidy-imports"] = {
+            ["banned-api"] = {
+              ["typing.TypedDict"] = {
+                msg = "Use `typing_extensions.TypedDict` instead"
+              }
+            }
+          }
+        },
+        format = {
+          ["quote-style"] = "single"
+        },
+      },
+      lineLength = 100
+    }
+  }
+})
+
+-- https://github.com/fourdigits/django-template-lsp
+vim.lsp.config('django_template_lsp', {
+  cmd = { "/home/david/Projekt/spintra/backend/.env/bin/djlsp" },
+  init_options = {
+    docker_compose_file = "docker-compose.yml",
+    docker_compose_service = "django"
+  }
+})
+
+-- Enable lang servers
+vim.lsp.enable({'typescript-tools', 'cssls', 'ruff', 'basedpyright', 'django_template_lsp'})
 
 -- Format on save
 vim.api.nvim_create_autocmd("LspAttach", {
