@@ -43,7 +43,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
-Plug 'pmizio/typescript-tools.nvim'
 call plug#end()
 
 """ Color
@@ -53,31 +52,8 @@ if has("termguicolors")
   set termguicolors
 endif
 
-""" nvim-lspconfig
+""" LSP configs
 lua << EOF
-
--- https://github.com/pmizio/typescript-tools.nvim
-vim.lsp.config('typescript-tools', {
-  settings = {
-    separate_diagnostic_server = true,
-    publish_diagnostic_on = "insert_leave",
-    expose_as_code_action = {},
-    tsserver_path = nil,
-    tsserver_plugins = {},
-    tsserver_max_memory = "auto",
-    tsserver_format_options = {},
-    tsserver_file_preferences = {},
-    tsserver_locale = "en",
-    complete_function_calls = false,
-    include_completions_with_insert_text = true,
-    code_lens = "off",
-    disable_member_code_lens = true,
-    jsx_close_tag = {
-        enable = false,
-        filetypes = { "javascriptreact", "typescriptreact" },
-    }
-  }
-})
 
 -- https://nix-community.github.io/nixvim/plugins/lsp/servers/cssls/
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -86,6 +62,11 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 vim.lsp.config('cssls', {
   capabilities = capabilities,
 })
+
+vim.lsp.config('html', {})
+
+-- https://github.com/yioneko/nvim-vtsls
+vim.lsp.config('vtsls', {})
 
 -- https://docs.basedpyright.com/latest/configuration/language-server-settings/
 vim.lsp.config('basedpyright', {
@@ -103,12 +84,9 @@ vim.lsp.config('basedpyright', {
   settings = {
     basedpyright = {
       analysis = {
-        autoSearchPaths = true,
         diagnosticMode = "openFilesOnly",
         typeCheckingMode = "basic",
-        -- useLibraryCodeForTypes = true, -- default, sällan behöver du sätta
       },
-      python = { pythonPath = "/home/david/Projekt/spintra/backend/.env/bin/python" },
     },
   },
 })
@@ -143,7 +121,7 @@ vim.lsp.config('ruff', {
 })
 
 -- https://github.com/fourdigits/django-template-lsp
-vim.lsp.config('django_template_lsp', {
+vim.lsp.config('djlsp', {
   cmd = { "/home/david/Projekt/spintra/backend/.env/bin/djlsp" },
   init_options = {
     docker_compose_file = "docker-compose.yml",
@@ -152,7 +130,7 @@ vim.lsp.config('django_template_lsp', {
 })
 
 -- Enable lang servers
-vim.lsp.enable({'cssls', 'ruff', 'basedpyright', 'django_template_lsp'})
+vim.lsp.enable({'html', 'cssls', 'vtsls', 'ruff', 'basedpyright', 'djlsp'})
 
 -- Format on save
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -168,17 +146,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end,
     })
   end
-})
-
-require('typescript-tools').setup({
-  on_attach = function(client, bufnr)
-    client.server_capabilities.documentFormattingProvider = false
-  end,
-  settings = {
-    separate_diagnostic_server = true,
-    publish_diagnostic_on = 'insert_leave',
-    expose_as_code_action = { 'fix_all', 'organize_imports' },
-  },
 })
 EOF
 
