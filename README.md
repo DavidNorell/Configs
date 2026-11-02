@@ -1,13 +1,15 @@
 # Config Files
 
-## NeoVimSetup
-NeoVim setups
+## NeoVim Setup
 
 Uses Plug:
-- :PlugInstall to install the extensions
-- :PlugUpdate to update the extensions
+- `:PlugInstall` to install the extensions
+- `:PlugUpdate` to update the extensions
+- Requires additional manual install e.g. languageservers
 
-## Ghostty config
+## Ghostty Config
+
+Reload config with `ctrl + shift + ,`
 
 ## .bashrc
 - Command history improvements
