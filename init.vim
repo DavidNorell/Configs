@@ -68,11 +68,7 @@ vim.lsp.config('cssls', {
 vim.lsp.config('html', {})
 
 -- https://github.com/yioneko/nvim-vtsls
-vim.lsp.config('vtsls', {
-  on_attach = function(client)
-    client.server_capabilities.documentHighlightProvider = false
-  end,
-})
+vim.lsp.config('vtsls', {})
 
 -- https://docs.basedpyright.com/latest/configuration/language-server-settings/
 vim.lsp.config('basedpyright', {
