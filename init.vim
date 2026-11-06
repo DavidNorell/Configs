@@ -5,6 +5,7 @@
 " - vscode-langservers-extracted (npm)
 " - basedpyright (npm)
 " - ruff
+" - @vtsls/language-server
 
 
 """ Plugins
@@ -28,6 +29,7 @@ Plug 'junegunn/fzf', { 'dir': '~/source/fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvimdev/lspsaga.nvim'
 
 """ File utilities
 Plug 'nvim-lua/plenary.nvim'
@@ -66,7 +68,11 @@ vim.lsp.config('cssls', {
 vim.lsp.config('html', {})
 
 -- https://github.com/yioneko/nvim-vtsls
-vim.lsp.config('vtsls', {})
+vim.lsp.config('vtsls', {
+  on_attach = function(client)
+    client.server_capabilities.documentHighlightProvider = false
+  end,
+})
 
 -- https://docs.basedpyright.com/latest/configuration/language-server-settings/
 vim.lsp.config('basedpyright', {
@@ -149,6 +155,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 EOF
 
+"""
+lua << EOF
+require('lspsaga').setup({
+  hover_doc_keymap = { scroll_down = '<C-f>', scroll_up = '<C-b>' },
+})
+EOF
+
 """ https://cmp.saghen.dev/configuration/reference.html#completion-trigger
 lua << EOF
 require('blink.cmp').setup({
@@ -170,7 +183,7 @@ EOF
 
 """ nvim-treesitter
 lua << EOF
-require'nvim-treesitter'.setup {
+require('nvim-treesitter').setup {
     ensure_installed = { "cpp", "c", "bash", "fish", "python", "lua", "vim", "vimdoc", "rust", "go" },
     highlight = {
         enable = true,
@@ -265,6 +278,7 @@ set diffopt+=vertical " Open diff window in vertical split
 set scrolloff=2       " keep 3 lines above and below cursor
 set equalalways
 set eadirection=both
+set signcolumn=yes
 
 
 """ Searching
@@ -281,6 +295,7 @@ let g:loaded_node_provider=0
 let g:loaded_perl_provider=0
 let g:loaded_ruby_provider=0
 let g:loaded_python3_provider=0
+
 
 nnoremap <leader>, :nohlsearch<cr>  " clear search highlight
 
@@ -323,7 +338,7 @@ nnoremap <leader>x :Trouble diagnostics toggle focus=false filter.buf=0<CR>
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <leader>gd <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gh :Lspsaga hover_doc<CR>
 nnoremap <silent> <leader>gr :Telescope lsp_references<CR>
 nnoremap <silent> <leader>gR :Trouble lsp_references<CR>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.rename()<CR>
