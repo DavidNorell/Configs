@@ -1,0 +1,7 @@
+# lazygit 0.64+
+# Dependencies:
+# - git-delta
+
+git:
+  diffRenderers:
+    - command: delta --dark --paging=never
