@@ -1,16 +1,25 @@
 # Config Files
 
-## NeoVim Setup
+## Terminal - .bashrc
 
-Uses Plug:
+Configs for: 
+- Command history + fzf
+- NVM: Node Version Manager
+- Pyenv
+
+## NeoVim - init.vim
+
+Config for language servers, keybinding, UI, and general Behaviour. Uses `Plug`:
+
 - `:PlugInstall` to install the extensions
 - `:PlugUpdate` to update the extensions
-- Requires additional manual install e.g. languageservers
 
-## Ghostty Config
+Requires additional manual installs, e.g. languageservers
 
-Reload config with `ctrl + shift + ,`
+## Ghostty - config.ghostty
 
-## .bashrc
-- Command history improvements
-- Aliases for checking ssl certs
+Config for UI and keybindings. Reload config with `ctrl + shift + ,`
+
+## Lazygit - config.yml
+
+Config for Word specific highligting in git diff files
