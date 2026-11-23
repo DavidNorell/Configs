@@ -6,6 +6,8 @@
 " - basedpyright (npm)
 " - ruff
 " - @vtsls/language-server
+" - django-template-lsp
+" - dotnet tool install -g roslyn-language-server --prerelease
 
 
 """ Plugins
@@ -67,6 +69,15 @@ vim.lsp.config('cssls', {
 
 vim.lsp.config('html', {})
 
+-- C# language server
+vim.lsp.config('roslyn_ls', {
+  settings = {
+    roslyn = {
+      analyzerDiagnosticsSeverity = "warning",
+    },
+  },
+})
+
 -- https://github.com/yioneko/nvim-vtsls
 vim.lsp.config('vtsls', {})
 
@@ -81,7 +92,6 @@ vim.lsp.config('basedpyright', {
     "setup.cfg",
     "requirements.txt",
     "Pipfile",
-    ".git",
   },
   settings = {
     basedpyright = {
@@ -132,7 +142,7 @@ vim.lsp.config('djlsp', {
 })
 
 -- Enable lang servers
-vim.lsp.enable({'html', 'cssls', 'vtsls', 'ruff', 'basedpyright', 'djlsp'})
+vim.lsp.enable({'html', 'cssls', 'vtsls', 'ruff', 'basedpyright', 'djlsp', 'roslyn_ls'})
 
 -- Format on save
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -322,6 +332,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>  " source init.vim
 nnoremap <leader>D :b#<bar>bd#<cr>
 nnoremap <leader>o :LspClangdSwitchSourceHeader<cr>
 
+nnoremap <leader>d :Explore<CR>
 nnoremap <leader>f :Telescope git_files<CR>
 nnoremap <leader>F :Telescope find_files<CR>
 nnoremap <leader>b :Telescope buffers<CR>
