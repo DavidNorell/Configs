@@ -81,6 +81,18 @@ vim.lsp.config('roslyn_ls', {
 -- https://github.com/yioneko/nvim-vtsls
 vim.lsp.config('vtsls', {})
 
+-- https://github.com/Engel-167/axaml-ls
+vim.filetype.add({ extension = { axaml = "xml" }})
+vim.lsp.config("axaml-ls", {
+  cmd = { "axaml-ls" },
+  filetypes = { "xml" },
+  root_markers = { "*.csproj", "*.fsproj", ".git" },
+  init_options = {
+    verbose = false,
+    inlayHints = { bindingSource = true },  -- false hides the (MainViewModel) hint
+  },
+})
+
 -- https://docs.basedpyright.com/latest/configuration/language-server-settings/
 vim.lsp.config('basedpyright', {
   cmd = { "basedpyright-langserver", "--stdio" },
@@ -142,7 +154,7 @@ vim.lsp.config('djlsp', {
 })
 
 -- Enable lang servers
-vim.lsp.enable({'html', 'cssls', 'vtsls', 'ruff', 'basedpyright', 'djlsp', 'roslyn_ls'})
+vim.lsp.enable({'html', 'cssls', 'vtsls', 'ruff', 'basedpyright', 'djlsp', 'roslyn_ls', 'axaml-ls'})
 
 -- Format on save
 vim.api.nvim_create_autocmd("LspAttach", {
